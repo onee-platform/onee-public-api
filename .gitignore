@@ -1,0 +1,8 @@
+.env
+.env.prod
+.idea
+.git_google
+token.json
+.DS_Store
+internal/.DS_Store
+server/public_api
