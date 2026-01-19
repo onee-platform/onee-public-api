@@ -1,0 +1,9 @@
+#!/bin/bash
+go get -u github.com/onee-platform/onee-go
+go get -u github.com/bendt-indonesia/env
+go get -u github.com/bendt-indonesia/util
+go mod tidy
+git add go.mod
+git add go.sum
+git commit -m "Update Pkg"
+git push

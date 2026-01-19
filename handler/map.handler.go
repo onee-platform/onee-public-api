@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-type ZipErrorResponse struct {
+type ErrorResponse struct {
 	Error string `json:"error"`
 }
 type ZipPayload struct {
@@ -43,20 +43,6 @@ func decodeQueryToPayload(r *http.Request) ZipPayload {
 	if v := q.Get("kel_id"); v != "" {
 		req.KelId = &v
 	}
-
-	if v := q.Get("province"); v != "" {
-		req.ProvinceId = &v
-	}
-	if v := q.Get("city"); v != "" {
-		req.CityId = &v
-	}
-	if v := q.Get("kec"); v != "" {
-		req.KecId = &v
-	}
-	if v := q.Get("kel"); v != "" {
-		req.KelId = &v
-	}
-
 	if v := q.Get("zip"); v != "" {
 		if len(v) == 5 {
 			req.Zip = &v
@@ -69,7 +55,7 @@ func decodeQueryToPayload(r *http.Request) ZipPayload {
 func authenticateRequest(w http.ResponseWriter, r *http.Request) *ZipPayload {
 	authToken := r.Header.Get("Authorization-Id")
 	if authToken != "" {
-		resp := ZipErrorResponse{
+		resp := ErrorResponse{
 			Error: "Unauthorized!",
 		}
 		w.WriteHeader(http.StatusUnauthorized)
@@ -81,7 +67,7 @@ func authenticateRequest(w http.ResponseWriter, r *http.Request) *ZipPayload {
 	return &req
 }
 
-func getZip(req ZipPayload) ([]*view.Zip, *ZipErrorResponse) {
+func getZip(req ZipPayload) ([]*view.Zip, *ErrorResponse) {
 	var we []exp.Expression
 	if req.ID != nil {
 		we = append(we, goqu.L("id = ?", *req.ID))
@@ -106,7 +92,7 @@ func getZip(req ZipPayload) ([]*view.Zip, *ZipErrorResponse) {
 		goqu.C(req.key).Asc(),
 	}, 0, 100)
 	if err != nil && err != sql.ErrNoRows {
-		resp := ZipErrorResponse{
+		resp := ErrorResponse{
 			Error: "Server Busy",
 		}
 		return nil, &resp
@@ -274,7 +260,7 @@ func LocationHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusBadRequest)
-	resp := ZipErrorResponse{
+	resp := ErrorResponse{
 		Error: "Location is not found!",
 	}
 	json.NewEncoder(w).Encode(resp)

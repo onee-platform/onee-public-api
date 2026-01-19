@@ -6,27 +6,24 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/onee-platform/onee-go/model"
 	con "github.com/onee-platform/onee-go/pkg/db/mysql"
-	"github.com/onee-platform/onee-grab/internal/view"
+	"github.com/onee-platform/onee-public-api/internal/view"
 	"github.com/sirupsen/logrus"
 )
 
-func GqGetVariantFull(Tx *sqlx.Tx, selectQuery string, whereExpr []exp.Expression) ([]*view.VariantFull, error) {
-	var results []*view.VariantFull
+func GqGetZip(Tx *sqlx.Tx, selectQuery string, whereExpr []exp.Expression, orderedExp []exp.OrderedExpression, offset, limit uint) ([]*view.Zip, error) {
+	var results []*view.Zip
 
 	//Build query
 	query, _, _ := con.GQX.
 		Select(goqu.L(selectQuery)).
-		From(model.VariantTableName).
-		LeftJoin(
-			goqu.T(model.ProductTableName),
-			goqu.On(goqu.Ex{
-				model.ProductTableName + ".id": goqu.I(model.VariantTableName + ".product_id"),
-			}),
-		).
+		From(model.ZipTableName).
 		Where(whereExpr...).
+		Order(orderedExp...).
+		Offset(offset).
+		Limit(limit).
 		ToSQL()
 
-	logrus.Trace(query)
+	logrus.Debug(query)
 	var err error
 
 	if Tx != nil {
@@ -36,11 +33,6 @@ func GqGetVariantFull(Tx *sqlx.Tx, selectQuery string, whereExpr []exp.Expressio
 	}
 
 	if err != nil {
-		logrus.WithFields(logrus.Fields{
-			"file":  "VariantFullRepository",
-			"func":  "GqFindOneCourierOrderFull",
-			"error": err,
-		}).Trace("No GqFindOneCourierOrderFull was found")
 		return nil, err
 	}
 

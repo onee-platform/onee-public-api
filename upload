@@ -5,17 +5,18 @@
 hostName="ec2-user@18.141.118.205"
 keyFile="~/_ppk/onee-sg.pem"
 
-projectFolder="onee-grab"
-remoteProjectFolder="grab"
+projectFolder="onee-public-api"
+remoteProjectFolder="public-api"
 
+
+serviceFile="public_api"
 #IF the file is located on the root project folder, you could fill serviceSubDir with ""
-serviceFile="webhook"
 #serviceSubDir SHOULD ended with slash (/).
 serviceSubDir="server/"
 
 #service name format [prod|stage]servicesNames
 #example prod_api | stage_event_mail
-servicesName="_grab"
+servicesName="_public"
 
 #Default action parameter ( nullable )
 userAction=$1
