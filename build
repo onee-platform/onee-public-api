@@ -1,0 +1,6 @@
+#!/bin/bash
+cd server
+rm consumer
+rm webhook
+env GOOS=linux GOARCH=amd64 /opt/homebrew/bin/go build webhook.go
+env GOOS=linux GOARCH=amd64 /opt/homebrew/bin/go build consumer.go

@@ -1,0 +1,165 @@
+#!/bin/bash
+
+################################################ CONFIGURATION HERE ################################################
+
+hostName="ec2-user@18.141.118.205"
+keyFile="~/_ppk/onee-sg.pem"
+
+projectFolder="onee-grab"
+remoteProjectFolder="grab"
+
+#IF the file is located on the root project folder, you could fill serviceSubDir with ""
+serviceFile="webhook"
+#serviceSubDir SHOULD ended with slash (/).
+serviceSubDir="server/"
+
+#service name format [prod|stage]servicesNames
+#example prod_api | stage_event_mail
+servicesName="_grab"
+
+#Default action parameter ( nullable )
+userAction=$1
+
+################################################ VALIDATIONS ################################################
+prodMatch="1" #default upload needed (1)
+stageMatch="1"  #default upload needed (1)
+
+echo "======================================UPLOAD OPTION========================================"
+echo "[$projectFolder] Upload build files $serviceSubDir$serviceFile into $hostName:"
+echo "1. STAGE - Staging"
+echo "2. PROD - Production"
+echo "3. BOTH"
+
+if [ userAction != "" ]
+  then
+    echo "Default parameter provided: $userAction"
+fi
+
+if ! [[ "$userAction" =~ ^[1-3]+$ ]]
+    then
+      echo "What environment would you like to execute [1-3]? "
+      read userAction
+fi
+
+if [ $userAction != "1" ] && [ $userAction != "2" ] && [ $userAction != "3" ]
+  then
+    echo "Unknown Option! Exit."
+    exit
+fi
+
+################################################ SHA512 CHECK ################################################
+echo "[UPLOAD_ACTION] $userAction"
+echo "======================================CHECKING SHA512========================================"
+echo "[FILE_PATH] ~/onee/$projectFolder/$serviceSubDir$serviceFile"
+sourceSha512=`shasum -a 512 $serviceSubDir$serviceFile | cut -d' ' -f 1`
+echo "[SHA512][LOCAL] $sourceSha512"
+if [ $userAction == "2" ]; then
+  prodSha512=`ssh -i $keyFile $hostName "sudo su -c \"sha512sum /var/www/production/$remoteProjectFolder/$serviceSubDir$serviceFile | cut -d' ' -f 1 \" "`
+  echo "[SHA512][_PROD] $prodSha512"
+  if [ $sourceSha512 == $prodSha512 ]; then
+      echo "No Update was needed (SHA512) matched."
+      exit
+  fi
+fi
+
+if [ $userAction == "1" ]; then
+  stageSha512=`ssh -i $keyFile $hostName "sudo su -c \"sha512sum /var/www/staging/$remoteProjectFolder/$serviceSubDir$serviceFile | cut -d' ' -f 1 \" "`
+  echo "[SHA512][STAGE] $stageSha512"
+  if [ $sourceSha512 == $stageSha512 ]; then
+      echo "No Update was needed (SHA512) matched."
+      exit
+  fi
+fi
+
+
+if [ $userAction == "3" ]; then
+  stageSha512=`ssh -i $keyFile $hostName "sudo su -c \"sha512sum /var/www/staging/$remoteProjectFolder/$serviceSubDir$serviceFile | cut -d' ' -f 1 \" "`
+  prodSha512=`ssh -i $keyFile $hostName "sudo su -c \"sha512sum /var/www/production/$remoteProjectFolder/$serviceSubDir$serviceFile | cut -d' ' -f 1 \" "`
+  echo "[SHA512][_PROD] $prodSha512"
+  echo "[SHA512][STAGE] $stageSha512"
+  if [ $sourceSha512 == $prodSha512 ]; then
+      prodMatch="0"
+      echo "No Update was needed (SHA512_PROD) matched."
+  fi
+
+  if [ $sourceSha512 == $stageSha512 ]; then
+      stageMatch="0"
+      echo "No Update was needed (SHA512_STAGE) matched."
+  fi
+fi
+
+################################################ EXECUTING ################################################
+if [ $userAction -eq 1 ]; then
+
+  #Second validation to prevent waste upload
+  if [ $stageMatch == "0" ]; then
+      echo "No Update was needed (SHA512) matched."
+      exit
+  fi
+
+  echo "Uploading build files.."
+  scp -i $keyFile ~/onee/$projectFolder/$serviceSubDir$serviceFile $hostName:/home/ec2-user/
+
+  echo "Move server file to /var/www/staging/$remoteProjectFolder/ "
+  ssh -i $keyFile $hostName "sudo su -c \"
+      mv /home/ec2-user/$serviceFile /var/www/staging/$remoteProjectFolder/$serviceSubDir &&
+      service stage$servicesName restart && sleep 3 && service stage$servicesName status
+  \" "
+  echo "Done"
+  exit
+
+elif [ $userAction -eq 2 ]; then
+
+  #Second validation to prevent waste upload
+  if [ $prodMatch == "0" ]; then
+      echo "No Update was needed (SHA512) matched."
+      exit
+  fi
+
+  echo "Uploading build files.."
+  scp -i $keyFile ~/onee/$projectFolder/$serviceSubDir$serviceFile $hostName:/home/ec2-user/
+
+  echo "Move server file to /var/www/production/$remoteProjectFolder/ "
+  ssh -i $keyFile $hostName "sudo su -c \"
+      mv /home/ec2-user/$serviceFile /var/www/production/$remoteProjectFolder/$serviceSubDir &&
+      service prod$servicesName restart && sleep 3 && service prod$servicesName status
+  \" "
+  echo "Done"
+  exit
+
+elif [ $userAction -eq 3 ]; then
+  if [ $stageMatch == "1" ] || [ $prodMatch == "1" ]
+    then
+      echo "Uploading build files.."
+      scp -i $keyFile ~/onee/$projectFolder/$serviceSubDir$serviceFile $hostName:/home/ec2-user/
+  fi
+
+  if [ $stageMatch == "1" ]; then
+     echo "[stage$servicesName] stopping service.. "
+     echo "[COPY] build file to /var/www/staging/$remoteProjectFolder/ "
+     echo "[stage$servicesName] starting service.. "
+     echo "sleep for 3s..."
+     echo "[stage$servicesName] check status.. "
+     ssh -i $keyFile $hostName "sudo su -c \"
+          service stage$servicesName stop &&
+          cp /home/ec2-user/$serviceFile /var/www/staging/$remoteProjectFolder/$serviceSubDir &&
+          service stage$servicesName start && sleep 3 && service stage$servicesName status
+      \" "
+     echo "Done"
+  fi
+
+  if [ $prodMatch == "1" ]; then
+     echo "[prod$servicesName] stopping service.. "
+     echo "[COPY] build file to /var/www/production/$remoteProjectFolder/ "
+     echo "[prod$servicesName] starting service.. "
+     echo "sleep for 3s..."
+     echo "[prod$servicesName] check status.. "
+     ssh -i $keyFile $hostName "sudo su -c \"
+          service prod$servicesName stop &&
+          cp /home/ec2-user/$serviceFile /var/www/production/$remoteProjectFolder/$serviceSubDir &&
+          service prod$servicesName start && sleep 3 && service prod$servicesName status
+      \" "
+     echo "Done"
+  fi
+
+fi
