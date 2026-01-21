@@ -9,14 +9,24 @@ require (
 	github.com/gorilla/handlers v1.5.2
 	github.com/gorilla/mux v1.8.1
 	github.com/jmoiron/sqlx v1.4.0
-	github.com/onee-platform/onee-go v0.0.0-20250519101421-2fc399dd4eb7
+	github.com/onee-platform/onee-biteship v0.0.0-20260121154845-1041368dba7c
+	github.com/onee-platform/onee-courier v0.0.0-20250807072817-8b08a6c4d428
+	github.com/onee-platform/onee-go v0.0.0-20260121124058-b572d81a17ad
+	github.com/onee-platform/onee-jne v0.0.0-20250807074252-983cb7be481b
+	github.com/onee-platform/onee-paxel v0.0.0-20250807074418-c98186ae684b
 	github.com/sirupsen/logrus v1.9.4
+	github.com/thoas/go-funk v0.9.3
 )
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/aws/aws-sdk-go v1.48.0 // indirect
+	github.com/IBM/sarama v1.46.3 // indirect
+	github.com/aws/aws-sdk-go v1.55.8 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/eapache/go-resiliency v1.7.0 // indirect
+	github.com/eapache/go-xerial-snappy v0.0.0-20230731223053-c322873962e3 // indirect
+	github.com/eapache/queue v1.1.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.12 // indirect
 	github.com/gertd/go-pluralize v0.2.1 // indirect
@@ -28,18 +38,30 @@ require (
 	github.com/gobeam/stringy v0.0.7 // indirect
 	github.com/golang/snappy v1.0.0 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
+	github.com/google/go-querystring v1.2.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/gorilla/css v1.0.0 // indirect
+	github.com/gorilla/css v1.0.1 // indirect
+	github.com/gosimple/slug v1.15.0 // indirect
+	github.com/gosimple/unidecode v1.0.1 // indirect
+	github.com/hashicorp/go-uuid v1.0.3 // indirect
+	github.com/jcmturner/aescts/v2 v2.0.0 // indirect
+	github.com/jcmturner/dnsutils/v2 v2.0.0 // indirect
+	github.com/jcmturner/gofork v1.7.6 // indirect
+	github.com/jcmturner/gokrb5/v8 v8.4.4 // indirect
+	github.com/jcmturner/rpc/v2 v2.0.3 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/klauspost/compress v1.18.3 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/linkedin/goavro v2.1.0+incompatible // indirect
-	github.com/microcosm-cc/bluemonday v1.0.26 // indirect
+	github.com/microcosm-cc/bluemonday v1.0.27 // indirect
+	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
-	github.com/nxadm/tail v1.4.11 // indirect
+	github.com/onee-platform/onee-logger v0.0.0-20250806073417-a127337cfc28 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
+	github.com/pierrec/lz4/v4 v4.1.25 // indirect
+	github.com/rcrowley/go-metrics v0.0.0-20250401214520-65e299d6c5c9 // indirect
 	github.com/richardlehane/mscfb v1.0.6 // indirect
 	github.com/richardlehane/msoleps v1.0.6 // indirect
-	github.com/thoas/go-funk v0.9.3 // indirect
 	github.com/tiendc/go-deepcopy v1.7.2 // indirect
 	github.com/xuri/efp v0.0.1 // indirect
 	github.com/xuri/excelize/v2 v2.10.0 // indirect
