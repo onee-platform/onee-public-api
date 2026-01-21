@@ -10,9 +10,12 @@ require (
 	github.com/gorilla/mux v1.8.1
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/onee-platform/onee-biteship v0.0.0-20260121154845-1041368dba7c
-	github.com/onee-platform/onee-courier v0.0.0-20250807072817-8b08a6c4d428
-	github.com/onee-platform/onee-go v0.0.0-20260121124058-b572d81a17ad
+	github.com/onee-platform/onee-courier v0.0.0-20260121173841-bfc29391dc68
+	github.com/onee-platform/onee-go v0.0.0-20260121173133-715bbcef4efd
+	github.com/onee-platform/onee-gosend v0.0.0-20250807074015-060d54505c6c
+	github.com/onee-platform/onee-grab v0.0.0-20250807073816-fba8dbb1c082
 	github.com/onee-platform/onee-jne v0.0.0-20250807074252-983cb7be481b
+	github.com/onee-platform/onee-lalamove v0.0.0-20250807073618-dad416735215
 	github.com/onee-platform/onee-paxel v0.0.0-20250807074418-c98186ae684b
 	github.com/sirupsen/logrus v1.9.4
 	github.com/thoas/go-funk v0.9.3
