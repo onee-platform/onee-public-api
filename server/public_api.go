@@ -3,12 +3,15 @@ package main
 import (
 	"fmt"
 	"github.com/bendt-indonesia/env"
+	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/onee-platform/onee-go/cached"
 	con "github.com/onee-platform/onee-go/pkg/db/mysql"
 	"github.com/onee-platform/onee-go/pkg/wlog"
 	"github.com/onee-platform/onee-public-api/handler"
+	"github.com/onee-platform/onee-public-api/internal/services"
+	"github.com/onee-platform/onee-public-api/pkg/validate"
 	"github.com/sirupsen/logrus"
 	"log"
 	"net/http"
@@ -27,8 +30,19 @@ func main() {
 	con.InitGoqu()
 	cached.InitAll()
 
+	validate.V = validator.New()
+
+	err = services.InitAPICouriers()
+	if err != nil {
+		logrus.Fatal(err)
+	}
+
 	r := mux.NewRouter()
+	r.HandleFunc("/quick_checkout", handler.QuickCheckoutHandler).Methods("POST")
 	r.HandleFunc("/couriers", handler.CourierListHandler).Methods("GET")
+	r.HandleFunc("/couriers/available/regular", handler.EstimateListHandler).Methods("POST")
+	r.HandleFunc("/couriers/available/instant", handler.EstimateListHandler).Methods("POST")
+	r.HandleFunc("/couriers/rate", handler.EstimateListHandler).Methods("POST")
 	r.HandleFunc("/map/provinces", handler.ProvinceListHandler).Methods("GET")
 	r.HandleFunc("/map/city", handler.CityListHandler).Methods("GET")
 	r.HandleFunc("/map/city/{province_id:[0-9]*}", handler.CityListHandler).Methods("GET")
@@ -43,7 +57,7 @@ func main() {
 	cors := handlers.CORS(
 		handlers.AllowedOrigins([]string{"*"}), // ganti ke domain spesifik di prod
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
-		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
+		handlers.AllowedHeaders([]string{"Content-Type", "Authorization", "X-Onee-id"}),
 		handlers.ExposedHeaders([]string{"Content-Length"}),
 		handlers.AllowCredentials(),
 	)

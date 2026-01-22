@@ -1,5 +1,14 @@
 #!/bin/bash
+export GOPRIVATE=github.com/onee-platform/*
 go get -u github.com/onee-platform/onee-go
+go get -u github.com/onee-platform/onee-whatsapp
+go get -u github.com/onee-platform/onee-biteship
+go get -u github.com/onee-platform/onee-courier
+go get -u github.com/onee-platform/onee-jne
+go get -u github.com/onee-platform/onee-paxel
+go get -u github.com/onee-platform/onee-grab
+go get -u github.com/onee-platform/onee-lalamove
+go get -u github.com/onee-platform/onee-order
 go get -u github.com/bendt-indonesia/env
 go get -u github.com/bendt-indonesia/util
 go mod tidy

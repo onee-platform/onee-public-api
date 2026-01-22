@@ -12,9 +12,11 @@ import (
 	"github.com/onee-platform/onee-go/pkg/wlog"
 	"github.com/onee-platform/onee-go/repo"
 	"github.com/onee-platform/onee-public-api/internal/repository"
+	"github.com/onee-platform/onee-public-api/internal/services"
 	"github.com/onee-platform/onee-public-api/internal/view"
 	"github.com/sirupsen/logrus"
 	"io"
+
 	"net/http"
 	"strings"
 	"time"
@@ -55,23 +57,36 @@ func main() {
 	con.InitGoqu()
 	cached.InitAll()
 
-	for true {
-		zip, err := repository.GqGetZip(nil, "DISTINCT province_name, city_name, kec_name, zip", []exp.Expression{
-			goqu.L("biteship_id = ?", ""),
-			//goqu.L("zip >= ?", prevZip),
-		}, []exp.OrderedExpression{
-			goqu.C("zip").Asc(),
-		}, 0, 100)
-
-		for _, z := range zip {
-			err = fetchAndStore("kec_name", z)
-			if err != nil {
-				fmt.Println(err.Error())
-				break
-			}
-			//time.Sleep(time.Millisecond * 300)
-		}
+	err = services.InitAPICouriers()
+	if err != nil {
+		logrus.Fatal(err)
 	}
+
+	rates, err := services.AvailableRegularRates("eb0ae4d9a87f4fd6b2e17d7cbab71853", "4613", nil, 1000)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	fmt.Println(util.ToJSON(rates))
+
+	//for true {
+	//	zip, err := repository.GqGetZip(nil, "DISTINCT province_name, city_name, kec_name, zip", []exp.Expression{
+	//		goqu.L("biteship_id = ?", ""),
+	//		//goqu.L("zip >= ?", prevZip),
+	//	}, []exp.OrderedExpression{
+	//		goqu.C("zip").Asc(),
+	//	}, 0, 100)
+	//
+	//	for _, z := range zip {
+	//		err = fetchAndStore("kec_name", z)
+	//		if err != nil {
+	//			fmt.Println(err.Error())
+	//			break
+	//		}
+	//		//time.Sleep(time.Millisecond * 300)
+	//	}
+	//}
 
 }
 

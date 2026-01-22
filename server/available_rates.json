@@ -1,0 +1,16 @@
+[
+  {
+    "courier_code": "LION",
+    "cost": 8500,
+    "etd": "1 - 2 days",
+    "note": "Layanan standard",
+    "service_code": "REGPACK",
+    "service_name": "Reg Pack",
+    "add_ons": null,
+    "quote_id": null,
+    "quote_valid_until": null,
+    "courier_token": "",
+    "expire_at": "0001-01-01T00:00:00Z",
+    "is_instant": false
+  }
+]

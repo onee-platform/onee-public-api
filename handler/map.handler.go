@@ -23,8 +23,9 @@ type ZipPayload struct {
 
 	Zip *string `json:"zip,omitempty"`
 
-	Q   string
-	key string
+	Q      string
+	key    string
+	Search string
 }
 
 func decodeQueryToPayload(r *http.Request) ZipPayload {
@@ -52,25 +53,38 @@ func decodeQueryToPayload(r *http.Request) ZipPayload {
 	return req
 }
 
-func authenticateRequest(w http.ResponseWriter, r *http.Request) *ZipPayload {
-	authToken := r.Header.Get("Authorization-Id")
+// return IsAuthenticated
+func authenticateRequest(w http.ResponseWriter, r *http.Request) (bool, string) {
+	authToken := r.Header.Get("Authorization")
 	if authToken != "" {
 		resp := ErrorResponse{
 			Error: "Unauthorized!",
 		}
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(resp)
-		return nil
+		return false, ""
 	}
 
-	req := decodeQueryToPayload(r)
-	return &req
+	shopId := r.Header.Get("X-Onee-Id")
+	if shopId == "" {
+		resp := ErrorResponse{
+			Error: "Unauthorized!",
+		}
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(resp)
+		return false, ""
+	}
+
+	return true, shopId
 }
 
-func getZip(req ZipPayload) ([]*view.Zip, *ErrorResponse) {
+func getZip(req ZipPayload, limit uint) ([]*view.Zip, *ErrorResponse) {
 	var we []exp.Expression
 	if req.ID != nil {
 		we = append(we, goqu.L("id = ?", *req.ID))
+	}
+	if req.Search != "" {
+		we = append(we, goqu.L("label LIKE ?", req.Search))
 	}
 	if req.ProvinceId != nil {
 		we = append(we, goqu.L("province_id = ?", *req.ProvinceId))
@@ -90,7 +104,7 @@ func getZip(req ZipPayload) ([]*view.Zip, *ErrorResponse) {
 
 	list, err := repository.GqGetZip(nil, req.Q, we, []exp.OrderedExpression{
 		goqu.C(req.key).Asc(),
-	}, 0, 100)
+	}, 0, limit)
 	if err != nil && err != sql.ErrNoRows {
 		resp := ErrorResponse{
 			Error: "Server Busy",
@@ -104,14 +118,16 @@ func getZip(req ZipPayload) ([]*view.Zip, *ErrorResponse) {
 func province(w http.ResponseWriter, r *http.Request) ([]*view.Zip, bool) {
 	w.Header().Set("Content-Type", "application/json")
 
-	req := authenticateRequest(w, r)
-	if req == nil {
+	isAuthenticated, _ := authenticateRequest(w, r)
+	if isAuthenticated == false {
 		return nil, true
 	}
+
+	req := decodeQueryToPayload(r)
 	req.Q = "DISTINCT province_id, province_name"
 	req.key = "province_id"
 
-	list, zipErr := getZip(*req)
+	list, zipErr := getZip(req, 100)
 	if zipErr != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(*zipErr)
@@ -123,17 +139,19 @@ func province(w http.ResponseWriter, r *http.Request) ([]*view.Zip, bool) {
 func city(provinceId string, w http.ResponseWriter, r *http.Request) ([]*view.Zip, bool) {
 	w.Header().Set("Content-Type", "application/json")
 
-	req := authenticateRequest(w, r)
-	if req == nil {
+	isAuthenticated, _ := authenticateRequest(w, r)
+	if isAuthenticated == false {
 		return nil, true
 	}
+
+	req := decodeQueryToPayload(r)
 	req.Q = "DISTINCT province_id, province_name, city_id, city_type, city_name"
 	req.key = "city_id"
 	if provinceId != "" {
 		req.ProvinceId = &provinceId
 	}
 
-	list, zipErr := getZip(*req)
+	list, zipErr := getZip(req, 1000)
 	if zipErr != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(*zipErr)
@@ -145,17 +163,19 @@ func city(provinceId string, w http.ResponseWriter, r *http.Request) ([]*view.Zi
 func kecamatan(cityId string, w http.ResponseWriter, r *http.Request) ([]*view.Zip, bool) {
 	w.Header().Set("Content-Type", "application/json")
 
-	req := authenticateRequest(w, r)
-	if req == nil {
+	isAuthenticated, _ := authenticateRequest(w, r)
+	if isAuthenticated == false {
 		return nil, true
 	}
+
+	req := decodeQueryToPayload(r)
 	req.Q = "DISTINCT province_id, province_name, city_id, city_type, city_name, kec_id, kec_name"
 	req.key = "kec_id"
 	if cityId != "" {
 		req.CityId = &cityId
 	}
 
-	list, zipErr := getZip(*req)
+	list, zipErr := getZip(req, 100)
 	if zipErr != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(*zipErr)
@@ -167,17 +187,19 @@ func kecamatan(cityId string, w http.ResponseWriter, r *http.Request) ([]*view.Z
 func kelurahan(kecId string, w http.ResponseWriter, r *http.Request) ([]*view.Zip, bool) {
 	w.Header().Set("Content-Type", "application/json")
 
-	req := authenticateRequest(w, r)
-	if req == nil {
+	isAuthenticated, _ := authenticateRequest(w, r)
+	if isAuthenticated == false {
 		return nil, true
 	}
+
+	req := decodeQueryToPayload(r)
 	req.Q = "DISTINCT province_id, province_name, city_id, city_type, city_name, kec_id, kec_name, kel_id, kel_name, zip"
 	req.key = "kel_id"
 	if kecId != "" {
 		req.KecId = &kecId
 	}
 
-	list, zipErr := getZip(*req)
+	list, zipErr := getZip(req, 100)
 	if zipErr != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(*zipErr)
@@ -234,20 +256,23 @@ func KelListHandler(w http.ResponseWriter, r *http.Request) {
 func LocationHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
+	search := vars["search"]
 
 	w.Header().Set("Content-Type", "application/json")
-	req := authenticateRequest(w, r)
-	if req == nil {
+	isAuthenticated, _ := authenticateRequest(w, r)
+	if isAuthenticated == false {
 		return
 	}
 
+	req := decodeQueryToPayload(r)
 	req.Q = "DISTINCT id, province_id, province_name, city_id, city_type, city_name, kec_id, kec_name, kel_id, kel_name, zip"
 	req.key = "id"
 	if id != "" {
 		req.ID = &id
 	}
+	req.Search = search
 
-	list, zipErr := getZip(*req)
+	list, zipErr := getZip(req, 100)
 	if zipErr != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(*zipErr)

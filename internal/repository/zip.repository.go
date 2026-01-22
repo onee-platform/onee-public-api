@@ -10,6 +10,36 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+func GqFindLocation(selectQuery string, whereExpr []exp.Expression) (*model.Location, error) {
+	m := model.Location{}
+
+	if selectQuery == "" {
+		selectQuery = "id, province_id, province_name, city_type, city_id, city_name, kec_id, kec_name, kel_id, kel_name, zip, raja_city_id, jne_origin, jne_destination"
+	}
+
+	//Build query
+	query, _, _ := con.GQX.
+		Select(goqu.L(selectQuery)).
+		From(model.ZipTableName).
+		Where(whereExpr...).
+		Limit(1).
+		ToSQL()
+
+	logrus.Trace(query)
+	err := con.DBX.Get(&m, query)
+
+	if err != nil {
+		logrus.WithFields(logrus.Fields{
+			"file":  "ZipRepository",
+			"func":  "GqFindLocation",
+			"error": err,
+		}).Warn("Unable to [GET] Courier Ids")
+		return nil, err
+	}
+
+	return &m, nil
+}
+
 func GqGetZip(Tx *sqlx.Tx, selectQuery string, whereExpr []exp.Expression, orderedExp []exp.OrderedExpression, offset, limit uint) ([]*view.Zip, error) {
 	var results []*view.Zip
 
