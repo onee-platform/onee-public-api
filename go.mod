@@ -6,17 +6,20 @@ require (
 	github.com/bendt-indonesia/env v0.0.0-20231118072616-7f3866ca3169
 	github.com/bendt-indonesia/util v0.0.0-20250424103313-e2834050448b
 	github.com/doug-martin/goqu/v9 v9.19.0
+	github.com/go-playground/validator/v10 v10.30.1
 	github.com/gorilla/handlers v1.5.2
 	github.com/gorilla/mux v1.8.1
 	github.com/jmoiron/sqlx v1.4.0
-	github.com/onee-platform/onee-biteship v0.0.0-20260121154845-1041368dba7c
-	github.com/onee-platform/onee-courier v0.0.0-20260121174919-059f5aa7f70a
-	github.com/onee-platform/onee-go v0.0.0-20260121174830-4fdf1cbdc77a
-	github.com/onee-platform/onee-gosend v0.0.0-20250807074015-060d54505c6c
-	github.com/onee-platform/onee-grab v0.0.0-20250807073816-fba8dbb1c082
-	github.com/onee-platform/onee-jne v0.0.0-20250807074252-983cb7be481b
-	github.com/onee-platform/onee-lalamove v0.0.0-20250807073618-dad416735215
-	github.com/onee-platform/onee-paxel v0.0.0-20250807074418-c98186ae684b
+	github.com/onee-platform/onee-biteship v0.0.0-20260122130716-980ef69adf8e
+	github.com/onee-platform/onee-courier v0.0.0-20260122131032-c3e4afe4dbc3
+	github.com/onee-platform/onee-go v0.0.0-20260122124926-ee9e3a620c4a
+	github.com/onee-platform/onee-gosend v0.0.0-20260122132003-3bee2409105b
+	github.com/onee-platform/onee-grab v0.0.0-20260122131607-ddd446684b6e
+	github.com/onee-platform/onee-jne v0.0.0-20260122132346-9b53a3dcac1f
+	github.com/onee-platform/onee-lalamove v0.0.0-20260122131328-f43c583b601b
+	github.com/onee-platform/onee-order v0.0.0-20260122154815-20d37016ea5b
+	github.com/onee-platform/onee-paxel v0.0.0-20260122132601-192def13cfe7
+	github.com/onee-platform/onee-whatsapp v0.0.0-20260122125713-a4cb3706fc11
 	github.com/sirupsen/logrus v1.9.4
 	github.com/thoas/go-funk v0.9.3
 )
@@ -41,13 +44,11 @@ require (
 	github.com/go-chi/chi/v5 v5.2.4 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-playground/validator/v10 v10.30.1 // indirect
 	github.com/go-redis/redis v6.15.9+incompatible // indirect
 	github.com/go-sql-driver/mysql v1.9.3 // indirect
 	github.com/gobeam/stringy v0.0.7 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/golang/snappy v1.0.0 // indirect
-	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/go-querystring v1.2.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/css v1.0.1 // indirect
@@ -73,18 +74,13 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.33 // indirect
 	github.com/mdp/qrterminal v1.0.1 // indirect
 	github.com/microcosm-cc/bluemonday v1.0.27 // indirect
-	github.com/midtrans/midtrans-go v1.3.8 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
-	github.com/onee-platform/onee-email v0.0.0-20250807053919-8bc27d8d4841 // indirect
-	github.com/onee-platform/onee-logger v0.0.0-20250806073417-a127337cfc28 // indirect
-	github.com/onee-platform/onee-notify v0.0.0-20250807070716-ee8e5a045b2a // indirect
-	github.com/onee-platform/onee-order v0.0.0-20250807082019-d2d414284dbb // indirect
-	github.com/onee-platform/onee-pay v0.0.0-20250807081845-c6a7ec517cf1 // indirect
-	github.com/onee-platform/onee-socket v0.0.0-20250801054144-f6a9df16e309 // indirect
-	github.com/onee-platform/onee-whatsapp v0.0.0-20260106094053-7f43d6c44fba // indirect
+	github.com/onee-platform/onee-email v0.0.0-20260122125458-40e8729be366 // indirect
+	github.com/onee-platform/onee-logger v0.0.0-20260122125056-ac1fd63efde1 // indirect
+	github.com/onee-platform/onee-socket v0.0.0-20260122125120-5942ec5bde7d // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/petermattis/goid v0.0.0-20260113132338-7c7de50cc741 // indirect
 	github.com/pierrec/lz4/v4 v4.1.25 // indirect
