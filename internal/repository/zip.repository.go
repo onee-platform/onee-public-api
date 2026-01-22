@@ -14,7 +14,7 @@ func GqFindLocation(selectQuery string, whereExpr []exp.Expression) (*model.Loca
 	m := model.Location{}
 
 	if selectQuery == "" {
-		selectQuery = "id, province_id, province_name, city_type, city_id, city_name, kec_id, kec_name, kel_id, kel_name, zip, raja_city_id, jne_origin, jne_destination"
+		selectQuery = "id, province_id, province_name, city_type, city_id, city_name, kec_id, kec_name, kel_id, kel_name, zip, jne_origin, jne_destination"
 	}
 
 	//Build query
