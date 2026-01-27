@@ -168,8 +168,8 @@ github.com/onee-platform/onee-courier v0.0.0-20260122131032-c3e4afe4dbc3 h1:Q0HO
 github.com/onee-platform/onee-courier v0.0.0-20260122131032-c3e4afe4dbc3/go.mod h1:CYFMmuR6jpstfXPTj1AYyoz4TyVSisp8uNl4FPVBUWE=
 github.com/onee-platform/onee-email v0.0.0-20260122125458-40e8729be366 h1:dAsLlN44OfGvz33yh9JpvI3NR70B3EDKoYn7Lx8e5iA=
 github.com/onee-platform/onee-email v0.0.0-20260122125458-40e8729be366/go.mod h1:CZuQcJbdlCbNhKbzrRm2A8GhpLdsVuLXf/MZcTn0Wnk=
-github.com/onee-platform/onee-go v0.0.0-20260127052815-98f41c12d9c8 h1:bhvlc8Qotc9i+Mo58X1oPeyp4Wpp56FItHT2gNBkHBo=
-github.com/onee-platform/onee-go v0.0.0-20260127052815-98f41c12d9c8/go.mod h1:ttnlcAuwFBLSNlKai1E3xFhGVLZkckRlD/nakAKIGco=
+github.com/onee-platform/onee-go v0.0.0-20260127063857-1e1336abcc5c h1:+eMnnTA06I2IuuM4xpimjG/fewgnzxxctAUSPb0OolM=
+github.com/onee-platform/onee-go v0.0.0-20260127063857-1e1336abcc5c/go.mod h1:ttnlcAuwFBLSNlKai1E3xFhGVLZkckRlD/nakAKIGco=
 github.com/onee-platform/onee-gosend v0.0.0-20260122132003-3bee2409105b h1:1Ran666L1Xh6hZmGK09/168vRPx4Tz7DBp0gfMuk+VY=
 github.com/onee-platform/onee-gosend v0.0.0-20260122132003-3bee2409105b/go.mod h1:vOMhZ2arlAVvwL/4JMPRdNhbHGs1Qdm2eiyvu0/0N4U=
 github.com/onee-platform/onee-grab v0.0.0-20260122131607-ddd446684b6e h1:Tg4ZKjABdmo3tEl6cGqqiDe7SAHSq//Z+hzAlErFtcE=
@@ -180,8 +180,8 @@ github.com/onee-platform/onee-lalamove v0.0.0-20260122131328-f43c583b601b h1:hXX
 github.com/onee-platform/onee-lalamove v0.0.0-20260122131328-f43c583b601b/go.mod h1:4WnRa8DChadK5SoN9xHJ66EBYLd15BylaTFJ6Z+GD7w=
 github.com/onee-platform/onee-logger v0.0.0-20260122125056-ac1fd63efde1 h1:OFBMnbNg9K5H5pEI3fdOxV32FOOce8b+dYMtIG5kwoA=
 github.com/onee-platform/onee-logger v0.0.0-20260122125056-ac1fd63efde1/go.mod h1:JKzzKNjaSwTFltotuCjuTkf2wxKlBGmxcfaGxg92tlE=
-github.com/onee-platform/onee-order v0.0.0-20260127053959-abab9964d90d h1:DK22AbEJbiO8m+mFzFEd+PB1TzsPinR//G7C3CKa5yU=
-github.com/onee-platform/onee-order v0.0.0-20260127053959-abab9964d90d/go.mod h1:y94EkzP9Cp/y3HPXPjEoEC0FehcVJmzypKOfikL/yEI=
+github.com/onee-platform/onee-order v0.0.0-20260127065206-654d23860d2d h1:mPNbRvj2Btn1/Q4gqpUkqqcEn9YggW7M+Vpy1NgFkB8=
+github.com/onee-platform/onee-order v0.0.0-20260127065206-654d23860d2d/go.mod h1:HegcwGFSDGrWBO/N0OznkBt5954N043asSNF38m258M=
 github.com/onee-platform/onee-paxel v0.0.0-20260122132601-192def13cfe7 h1:v1U52/8EqMI1nREFVtwPAx/ofYET34ToHLZkUp1ph+Y=
 github.com/onee-platform/onee-paxel v0.0.0-20260122132601-192def13cfe7/go.mod h1:4k2phDo66G6D7yTIffdNn/ZXshJgd948WbQBdnY1UEY=
 github.com/onee-platform/onee-socket v0.0.0-20260122125120-5942ec5bde7d h1:7sjZ8Ea7S9r7fuxYrBNH+suAVuZPERSpO6T8wR4mJcs=
