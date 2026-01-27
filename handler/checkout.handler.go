@@ -3,7 +3,6 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/doug-martin/goqu/v9"
 	"github.com/doug-martin/goqu/v9/exp"
 	"github.com/onee-platform/onee-go/repo"
 	"github.com/onee-platform/onee-order/quick_checkout"
@@ -16,8 +15,9 @@ type QuickCheckoutInput struct {
 	Name              string                            `validate:"required" json:"name"`
 	Items             []*quick_checkout.QuickDetailItem `validate:"required,min=1" json:"items"`
 	TotalWeightInGram int                               `validate:"required,min=100" json:"total_weight_gr"`
-	Email             *string                           `json:"email"`
-	Phone             *string                           `json:"phone"`
+	MaxCheckout       *int                              `json:"max_checkout,omitempty"`
+	Email             *string                           `json:"email,omitempty"`
+	Phone             *string                           `json:"phone,omitempty"`
 	SendNotification  bool                              `json:"send_notification"`
 }
 
@@ -54,7 +54,7 @@ func QuickCheckoutHandler(w http.ResponseWriter, r *http.Request) {
 	decoder.DisallowUnknownFields()
 
 	if err := decoder.Decode(&input); err != nil {
-		resp.Message = "Invalid Payload"
+		resp.Message = err.Error()
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(resp)
 		return
@@ -70,7 +70,7 @@ func QuickCheckoutHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	quick, err := services.QuickCheckout(shopId, input.Name, input.Phone, input.Email, input.SendNotification, float64(input.TotalWeightInGram), input.Items)
+	quick, err := services.QuickCheckout(shopId, input.Name, input.Phone, input.Email, input.SendNotification, input.MaxCheckout, float64(input.TotalWeightInGram), input.Items)
 	if err != nil {
 		resp.Message = err.Error()
 		w.WriteHeader(http.StatusBadRequest)
@@ -78,9 +78,7 @@ func QuickCheckoutHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s, _ := repo.GqFindOneShopTx(nil, "id", shopId, "is_active, slug", []exp.Expression{
-		goqu.L(""),
-	})
+	s, _ := repo.GqFindOneShopTx(nil, "id", shopId, "is_active, slug", []exp.Expression{})
 	if s == nil || *s.IsActive == false {
 		resp.Message = "Shop is inactive."
 		w.WriteHeader(http.StatusPaymentRequired)
@@ -89,7 +87,7 @@ func QuickCheckoutHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	qc := &QuickCheckoutData{
-		CheckoutURL:       fmt.Sprintf("https://%s.onee.id/checkout/%s", quick.ID),
+		CheckoutURL:       fmt.Sprintf("https://%s.onee.id/checkout/%s", *s.Slug, quick.ID),
 		Name:              quick.Name,
 		Phone:             quick.Phone,
 		Email:             quick.Email,

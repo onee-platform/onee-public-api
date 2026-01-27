@@ -8,7 +8,7 @@ import (
 	"github.com/onee-platform/onee-order/quick_checkout"
 )
 
-func QuickCheckout(shopId, name string, phone, email *string, sendWA bool, totalWeightInGram float64, items []*quick_checkout.QuickDetailItem) (*view.Quick, error) {
+func QuickCheckout(shopId, name string, phone, email *string, sendWA bool, maxCheckout *int, totalWeightInGram float64, items []*quick_checkout.QuickDetailItem) (*view.Quick, error) {
 	Tx := repo.BeginTransaction()
 	qc := quick_checkout.QuickCheckout{
 		Tx:                Tx,
@@ -20,6 +20,9 @@ func QuickCheckout(shopId, name string, phone, email *string, sendWA bool, total
 		Email:             email,
 		Name:              &name,
 		TotalWeightInGram: &totalWeightInGram,
+	}
+	if maxCheckout != nil && *maxCheckout > 0 {
+		qc.MaxCheckout = *maxCheckout
 	}
 	err := qc.Execute()
 	if err != nil {
