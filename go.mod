@@ -12,12 +12,12 @@ require (
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/onee-platform/onee-biteship v0.0.0-20260122130716-980ef69adf8e
 	github.com/onee-platform/onee-courier v0.0.0-20260122131032-c3e4afe4dbc3
-	github.com/onee-platform/onee-go v0.0.0-20260122124926-ee9e3a620c4a
+	github.com/onee-platform/onee-go v0.0.0-20260127052815-98f41c12d9c8
 	github.com/onee-platform/onee-gosend v0.0.0-20260122132003-3bee2409105b
 	github.com/onee-platform/onee-grab v0.0.0-20260122131607-ddd446684b6e
 	github.com/onee-platform/onee-jne v0.0.0-20260122132346-9b53a3dcac1f
 	github.com/onee-platform/onee-lalamove v0.0.0-20260122131328-f43c583b601b
-	github.com/onee-platform/onee-order v0.0.0-20260122154815-20d37016ea5b
+	github.com/onee-platform/onee-order v0.0.0-20260127053959-abab9964d90d
 	github.com/onee-platform/onee-paxel v0.0.0-20260122132601-192def13cfe7
 	github.com/onee-platform/onee-whatsapp v0.0.0-20260122125713-a4cb3706fc11
 	github.com/sirupsen/logrus v1.9.4
@@ -100,7 +100,7 @@ require (
 	github.com/yeqown/reedsolomon v1.0.0 // indirect
 	go.mau.fi/libsignal v0.2.1 // indirect
 	go.mau.fi/util v0.9.5 // indirect
-	go.mau.fi/whatsmeow v0.0.0-20260122001212-37568b947bd4 // indirect
+	go.mau.fi/whatsmeow v0.0.0-20260126173513-4dbbef8d4d4a // indirect
 	golang.org/x/crypto v0.47.0 // indirect
 	golang.org/x/exp v0.0.0-20260112195511-716be5621a96 // indirect
 	golang.org/x/image v0.35.0 // indirect
