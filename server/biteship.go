@@ -13,7 +13,7 @@ import (
 	"github.com/onee-platform/onee-go/repo"
 	"github.com/onee-platform/onee-public-api/internal/repository"
 	"github.com/onee-platform/onee-public-api/internal/services"
-	"github.com/onee-platform/onee-public-api/internal/view"
+	"github.com/onee-platform/onee-public-api/internal/view_pub"
 	"github.com/sirupsen/logrus"
 	"io"
 
@@ -90,7 +90,7 @@ func main() {
 
 }
 
-func fetchAndStore(by string, z *view.Zip) error {
+func fetchAndStore(by string, z *view_pub.Zip) error {
 	var input string
 	if by == "zip" && z.Zip != nil {
 		input = *z.Zip

@@ -7,7 +7,7 @@ import (
 	"github.com/doug-martin/goqu/v9/exp"
 	"github.com/gorilla/mux"
 	"github.com/onee-platform/onee-public-api/internal/repository"
-	"github.com/onee-platform/onee-public-api/internal/view"
+	"github.com/onee-platform/onee-public-api/internal/view_pub"
 	"net/http"
 )
 
@@ -78,7 +78,7 @@ func authenticateRequest(w http.ResponseWriter, r *http.Request) (bool, string) 
 	return true, shopId
 }
 
-func getZip(req ZipPayload, limit uint) ([]*view.Zip, *ErrorResponse) {
+func getZip(req ZipPayload, limit uint) ([]*view_pub.Zip, *ErrorResponse) {
 	var we []exp.Expression
 	if req.ID != nil {
 		we = append(we, goqu.L("id = ?", *req.ID))
@@ -115,7 +115,7 @@ func getZip(req ZipPayload, limit uint) ([]*view.Zip, *ErrorResponse) {
 	return list, nil
 }
 
-func province(w http.ResponseWriter, r *http.Request) ([]*view.Zip, bool) {
+func province(w http.ResponseWriter, r *http.Request) ([]*view_pub.Zip, bool) {
 	w.Header().Set("Content-Type", "application/json")
 
 	isAuthenticated, _ := authenticateRequest(w, r)
@@ -136,7 +136,7 @@ func province(w http.ResponseWriter, r *http.Request) ([]*view.Zip, bool) {
 	return list, false
 }
 
-func city(provinceId string, w http.ResponseWriter, r *http.Request) ([]*view.Zip, bool) {
+func city(provinceId string, w http.ResponseWriter, r *http.Request) ([]*view_pub.Zip, bool) {
 	w.Header().Set("Content-Type", "application/json")
 
 	isAuthenticated, _ := authenticateRequest(w, r)
@@ -160,7 +160,7 @@ func city(provinceId string, w http.ResponseWriter, r *http.Request) ([]*view.Zi
 	return list, false
 }
 
-func kecamatan(cityId string, w http.ResponseWriter, r *http.Request) ([]*view.Zip, bool) {
+func kecamatan(cityId string, w http.ResponseWriter, r *http.Request) ([]*view_pub.Zip, bool) {
 	w.Header().Set("Content-Type", "application/json")
 
 	isAuthenticated, _ := authenticateRequest(w, r)
@@ -184,7 +184,7 @@ func kecamatan(cityId string, w http.ResponseWriter, r *http.Request) ([]*view.Z
 	return list, false
 }
 
-func kelurahan(kecId string, w http.ResponseWriter, r *http.Request) ([]*view.Zip, bool) {
+func kelurahan(kecId string, w http.ResponseWriter, r *http.Request) ([]*view_pub.Zip, bool) {
 	w.Header().Set("Content-Type", "application/json")
 
 	isAuthenticated, _ := authenticateRequest(w, r)

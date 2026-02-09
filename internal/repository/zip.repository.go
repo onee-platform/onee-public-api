@@ -6,7 +6,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/onee-platform/onee-go/model"
 	con "github.com/onee-platform/onee-go/pkg/db/mysql"
-	"github.com/onee-platform/onee-public-api/internal/view"
+	"github.com/onee-platform/onee-public-api/internal/view_pub"
 	"github.com/sirupsen/logrus"
 )
 
@@ -40,8 +40,8 @@ func GqFindLocation(selectQuery string, whereExpr []exp.Expression) (*model.Loca
 	return &m, nil
 }
 
-func GqGetZip(Tx *sqlx.Tx, selectQuery string, whereExpr []exp.Expression, orderedExp []exp.OrderedExpression, offset, limit uint) ([]*view.Zip, error) {
-	var results []*view.Zip
+func GqGetZip(Tx *sqlx.Tx, selectQuery string, whereExpr []exp.Expression, orderedExp []exp.OrderedExpression, offset, limit uint) ([]*view_pub.Zip, error) {
+	var results []*view_pub.Zip
 
 	//Build query
 	query, _, _ := con.GQX.

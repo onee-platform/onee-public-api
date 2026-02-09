@@ -1,4 +1,4 @@
-package view
+package view_pub
 
 type Zip struct {
 	ID           string  `db:"id" json:"id,omitempty"`
@@ -13,9 +13,4 @@ type Zip struct {
 	KelName      *string `db:"kel_name" json:"kel_name,omitempty"`
 	Label        *string `db:"label" json:"label,omitempty"`
 	Zip          *string `db:"zip" json:"zip,omitempty"`
-}
-
-type ZipSimple struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
 }

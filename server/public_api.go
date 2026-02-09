@@ -39,6 +39,7 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/quick_checkout", handler.QuickCheckoutHandler).Methods("POST")
+	r.HandleFunc("/domain/tlds", handler.DomainTldsHandler).Methods("GET")
 	r.HandleFunc("/couriers", handler.CourierListHandler).Methods("GET")
 	r.HandleFunc("/couriers/available/regular", handler.EstimateListHandler).Methods("POST")
 	r.HandleFunc("/couriers/available/instant", handler.EstimateListHandler).Methods("POST")

@@ -7,16 +7,6 @@ import (
 	"net/http"
 )
 
-type FindRateInput struct {
-	CourierCode        string `json:"courier_code"`
-	CourierServiceCode string `json:"courier_service_code"`
-	DestinationId      string `json:"destination_id"`
-	WeightInGram       uint   `json:"weight_in_gram"`
-	Height             *uint  `json:"height,omitempty"`
-	Length             *uint  `json:"length,omitempty"`
-	Width              *uint  `json:"width,omitempty"`
-}
-
 func CourierListHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	isAuthenticated, shopId := authenticateRequest(w, r)
@@ -50,6 +40,16 @@ func RateListHandler(w http.ResponseWriter, r *http.Request) {
 	services.AvailableRegularRates(shopId, destinationId, nil, weightInGram)
 	w.WriteHeader(http.StatusOK)
 	//json.NewEncoder(w).Encode(ei)
+}
+
+type FindRateInput struct {
+	CourierCode        string `json:"courier_code"`
+	CourierServiceCode string `json:"courier_service_code"`
+	DestinationId      string `json:"destination_id"`
+	WeightInGram       uint   `json:"weight_in_gram"`
+	Height             *uint  `json:"height,omitempty"`
+	Length             *uint  `json:"length,omitempty"`
+	Width              *uint  `json:"width,omitempty"`
 }
 
 func EstimateListHandler(w http.ResponseWriter, r *http.Request) {
