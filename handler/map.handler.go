@@ -11,9 +11,6 @@ import (
 	"net/http"
 )
 
-type ErrorResponse struct {
-	Error string `json:"error"`
-}
 type ZipPayload struct {
 	ID         *string `json:"id,omitempty"`
 	ProvinceId *string `json:"province_id,omitempty"`
@@ -51,31 +48,6 @@ func decodeQueryToPayload(r *http.Request) ZipPayload {
 	}
 
 	return req
-}
-
-// return IsAuthenticated
-func authenticateRequest(w http.ResponseWriter, r *http.Request) (bool, string) {
-	authToken := r.Header.Get("Authorization")
-	if authToken != "" {
-		resp := ErrorResponse{
-			Error: "Unauthorized!",
-		}
-		w.WriteHeader(http.StatusUnauthorized)
-		json.NewEncoder(w).Encode(resp)
-		return false, ""
-	}
-
-	shopId := r.Header.Get("X-Onee-Id")
-	if shopId == "" {
-		resp := ErrorResponse{
-			Error: "Unauthorized!",
-		}
-		w.WriteHeader(http.StatusUnauthorized)
-		json.NewEncoder(w).Encode(resp)
-		return false, ""
-	}
-
-	return true, shopId
 }
 
 func getZip(req ZipPayload, limit uint) ([]*view_pub.Zip, *ErrorResponse) {
