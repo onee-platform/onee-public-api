@@ -2,9 +2,9 @@ package services
 
 import (
 	"fmt"
+	"github.com/bendt-indonesia/go-pkg/kafka"
 	"github.com/bendt-indonesia/util"
 	"github.com/onee-platform/onee-go/enum"
-	"github.com/onee-platform/onee-go/pkg/kafka"
 	whatsapp "github.com/onee-platform/onee-whatsapp"
 	"os"
 )

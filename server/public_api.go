@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/bendt-indonesia/env"
+	con "github.com/bendt-indonesia/go-pkg/db/mysql"
+	"github.com/bendt-indonesia/go-pkg/wlog"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/onee-platform/onee-go/cached"
-	con "github.com/onee-platform/onee-go/pkg/db/mysql"
-	"github.com/onee-platform/onee-go/pkg/wlog"
 	"github.com/onee-platform/onee-public-api/handler"
 	"github.com/onee-platform/onee-public-api/internal/services"
 	"github.com/onee-platform/onee-public-api/pkg/validate"
@@ -26,8 +26,7 @@ func main() {
 	}
 	//Establish DB Connection
 	wlog.InitLog()
-	con.InitSqlX()
-	con.InitGoqu()
+	con.Connect()
 	cached.InitAll()
 
 	validate.V = validator.New()

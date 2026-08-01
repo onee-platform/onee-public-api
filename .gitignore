@@ -6,3 +6,6 @@ token.json
 .DS_Store
 internal/.DS_Store
 server/public_api
+.idea/
+go.work
+go.work.sum

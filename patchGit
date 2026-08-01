@@ -7,6 +7,7 @@ go get -u github.com/onee-platform/onee-courier
 go get -u github.com/onee-platform/onee-jne
 go get -u github.com/onee-platform/onee-paxel
 go get -u github.com/onee-platform/onee-grab
+go get -u github.com/onee-platform/onee-gosend
 go get -u github.com/onee-platform/onee-lalamove
 go get -u github.com/onee-platform/onee-order
 go get -u github.com/bendt-indonesia/env

@@ -1,11 +1,11 @@
 package repository
 
 import (
+	con "github.com/bendt-indonesia/go-pkg/db/mysql"
 	"github.com/bendt-indonesia/util"
 	"github.com/doug-martin/goqu/v9"
 	"github.com/doug-martin/goqu/v9/exp"
 	"github.com/onee-platform/onee-go/model"
-	con "github.com/onee-platform/onee-go/pkg/db/mysql"
 	"github.com/onee-platform/onee-go/view"
 	"github.com/sirupsen/logrus"
 )
