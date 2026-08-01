@@ -53,8 +53,7 @@ func main() {
 	}
 	//Establish DB Connection
 	wlog.InitLog()
-	con.InitSqlX()
-	con.InitGoqu()
+	con.Connect()
 	cached.InitAll()
 
 	err = services.InitAPICouriers()
